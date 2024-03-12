@@ -5,4 +5,4 @@ abstract class HomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class HomeinitialEvent extends HomeEvent {}
+class HomeInitialEvent extends HomeEvent {}

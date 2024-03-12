@@ -1,3 +1,4 @@
+import 'package:api_retrofit_project/model/product_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class HomeState extends Equatable {
@@ -5,4 +6,11 @@ abstract class HomeState extends Equatable {
   List<Object?> get props => [];
 }
 
-class HomeinitialState extends HomeState {}
+class HomeInitialState extends HomeState {}
+
+class HomeLoading extends HomeState {}
+
+class HomeInitialDataState extends HomeState {
+  final ProductModel productModel;
+  HomeInitialDataState({required this.productModel});
+}
