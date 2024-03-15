@@ -1,13 +1,15 @@
 import 'package:api_retrofit_project/core/webservice/api_client.dart';
-import 'package:api_retrofit_project/view/home/screen/home_page.dart';
+import 'package:api_retrofit_project/view/my_app/my_app_page.dart';
 import 'package:flutter/material.dart';
+import 'injection_container.dart' as di;
 
-void main() {
+void main() async {
   _initApp();
   runApp(const MainApp());
 }
 
 void _initApp() async {
+  await di.init();
   ApiClient.initService();
 }
 
@@ -16,8 +18,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
-    );
+    return const MyAppPage();
   }
 }
