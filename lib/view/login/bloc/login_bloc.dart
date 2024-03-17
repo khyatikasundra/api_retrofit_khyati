@@ -22,15 +22,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoadingState());
     try {
       var request =
-          LoginRequestModel(username: event.userName, password: event.password);
-      var response =
-          await ApiClient.authenticateService.authenticateUser(request);
-      if ((response.response.statusCode ?? 0) >= 200 &&
-          (response.response.statusCode ?? 0) < 300) {
+          LoginRequestModel(username: event.userName.trim(), password: event.password.trim());
+      var response = await ApiClient.authenticateService.authenticateUser(request);      
         authenticationBloc.add(OnLoggedInEvent(token: response.data.token));
-      } else {
-        debugPrint("something went wrong");
-      }
+      
     } on Failure catch (e) {
       if (e.statusCode == null) {
         emit(LoginFailureState(errorMessage: e.message));

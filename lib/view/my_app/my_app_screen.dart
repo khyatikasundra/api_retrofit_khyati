@@ -18,7 +18,7 @@ class _MyAppScreenState extends State<MyAppScreen> {
   @override
   void initState() {
     _authenticationBloc = context.read<AuthenticationBloc>();
-    _authenticationBloc.add(NAppStarted());
+    _authenticationBloc.add(OnAppStarted());
     super.initState();
   }
 
@@ -42,3 +42,4 @@ class _MyAppScreenState extends State<MyAppScreen> {
     return const LoginPage();
   }
 }
+

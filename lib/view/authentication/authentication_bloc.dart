@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:api_retrofit_project/core/shared_preference_helper.dart';
 import 'package:api_retrofit_project/view/authentication/authentication_event.dart';
 import 'package:api_retrofit_project/view/authentication/authentication_state.dart';
 import 'package:bloc/bloc.dart';
@@ -8,15 +9,21 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(AuthenticationInitialState()) {
     on<OnLoggedInEvent>(_onLoggedIn);
-    on<NAppStarted>(_onAppStarted);
+    on<OnAppStarted>(_onAppStarted);
   }
 
   FutureOr<void> _onLoggedIn(
-      OnLoggedInEvent event, Emitter<AuthenticationState> emit) {
+      OnLoggedInEvent event, Emitter<AuthenticationState> emit) async {
+    await SharedPreferenceHelper.setToken(event.token);
     emit(AuthenticationAuthenticated());
   }
 
-  FutureOr<void> _onAppStarted(event, Emitter<AuthenticationState> emit) {
-    emit(AuthenticationUnauthenticated());
+  FutureOr<void> _onAppStarted(event, Emitter<AuthenticationState> emit) async {
+    var token = await SharedPreferenceHelper.getToken();
+    if ((token ?? '').isNotEmpty) {
+      emit(AuthenticationAuthenticated());
+    } else {
+      emit(AuthenticationUnauthenticated());
+    }
   }
 }

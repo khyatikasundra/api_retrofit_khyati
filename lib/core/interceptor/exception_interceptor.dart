@@ -21,6 +21,7 @@ class ExceptionInterceptor extends InterceptorsWrapper {
             exceptionMessage: Strings.errorMessage.noInternetConnection,
             authenticationStatusCode: err.response?.statusCode);
       case DioExceptionType.unknown:
+      break;
     }
     super.onError(err, handler);
   }
