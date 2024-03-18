@@ -1,0 +1,54 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "userName": "Khyati",
+            "email": "khyati@gmail.com",
+            "phoneNumber": 4444444,
+            "imageUrl": "",
+            "firstName": "khyati"
+        },{
+            "id": 2,
+            "userName": "Jhanvi",
+            "email": "jhanvi@gmail.com",
+            "phoneNumber": 4444444,
+            "imageUrl": "",
+            "firstName": "khyati"
+        },{
+            "id": 3,
+            "userName": "Poojan",
+            "email": "poojan@gmail.com",
+            "phoneNumber": 4444444,
+            "imageUrl": "",
+            "firstName": "khyati"
+        },{
+            "id": 4,
+            "userName": "Jaydeep",
+            "email": "jaydeep@gmail.com",
+            "phoneNumber": 4444444,
+            "imageUrl": "",
+            "firstName": "khyati"
+        },{
+            "id": 5,
+            "userName": "Jay",
+            "email": "jay@gmail.com",
+            "phoneNumber": 4444444,
+            "imageUrl": "",
+            "firstName": "khyati"
+        },{
+            "id": 6,
+            "userName": "Sunil",
+            "email": "sunil@gmail.com",
+            "phoneNumber": 4444444,
+            "imageUrl": "",
+            "firstName": "khyati"
+        },{
+            "id": 7,
+            "userName": "Yax",
+            "email": "yax@gmail.com",
+            "phoneNumber": 4444444,
+            "imageUrl": "",
+            "firstName": "khyati"
+        }
+    ]
+}

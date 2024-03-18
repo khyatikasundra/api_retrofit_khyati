@@ -5,3 +5,5 @@ abstract class HomeEvent extends Equatable{
   List<Object?> get props => [];
 }
 class GetHomeInitialDataEvent extends HomeEvent{}
+
+class GetLogoutButtonPressedEvent extends HomeEvent{}

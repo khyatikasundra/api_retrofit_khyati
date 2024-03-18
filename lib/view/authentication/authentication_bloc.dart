@@ -10,6 +10,7 @@ class AuthenticationBloc
   AuthenticationBloc() : super(AuthenticationInitialState()) {
     on<OnLoggedInEvent>(_onLoggedIn);
     on<OnAppStarted>(_onAppStarted);
+    on<OnLogoutEvent>(_onLogout);
   }
 
   FutureOr<void> _onLoggedIn(
@@ -25,5 +26,13 @@ class AuthenticationBloc
     } else {
       emit(AuthenticationUnauthenticated());
     }
+  }
+
+  FutureOr<void> _onLogout(
+      OnLogoutEvent event, Emitter<AuthenticationState> emit) async {
+    emit(AuthenticationLoading());
+    await SharedPreferenceHelper.clear();
+    print("emit");
+    emit(AuthenticationUnauthenticated());
   }
 }

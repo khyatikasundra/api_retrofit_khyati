@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late HomeBloc _homeBloc;
-  ProfileModel _profileModel = const ProfileModel();
+  List<User> _users = [];
   @override
   void initState() {
     _homeBloc = context.read<HomeBloc>();
@@ -25,26 +25,45 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text("Home"),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  _homeBloc.add(GetLogoutButtonPressedEvent());
+                },
+                icon: const Icon(Icons.logout_rounded))
+          ],
+        ),
         body: BlocConsumer<HomeBloc, HomeState>(
-      listener: (context, state) {
-        if (state is StateFailureState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("${state.errorMessage} ${state.statusCode ?? ''}"),
-            duration: const Duration(seconds: 10),
-          ));
-        }
-      },
-      builder: (context, state) {
-        if (state is OnGetHomeInitialDataState) {
-          _profileModel = state.profileModel;
-        }
+          listener: (context, state) {
+            if (state is StateFailureState) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content:
+                    Text("${state.errorMessage} ${state.statusCode ?? ''}"),
+                duration: const Duration(seconds: 10),
+              ));
+            }
+          },
+          builder: (context, state) {
+            if (state is OnGetHomeInitialDataState) {
+            
+            }
 
-        return SafeArea(
-            child: Center(
-                child: state is HomeLoadingState
-                    ? const CircularProgressIndicator()
-                    : Text(_profileModel.email ?? '')));
-      },
-    ));
+            return SafeArea(
+                child: Center(
+                    child: state is HomeLoadingState
+                        ? const CircularProgressIndicator()
+                        : CustomScrollView(
+                            slivers: [
+                              SliverList.builder(
+                              
+                                  itemBuilder: (context, index) => ListTile(
+                                        title: Text(''),
+                                      ))
+                            ],
+                          )));
+          },
+        ));
   }
 }

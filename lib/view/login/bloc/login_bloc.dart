@@ -21,11 +21,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       OnLoginButtonPressedEvent event, Emitter<LoginState> emit) async {
     emit(LoginLoadingState());
     try {
-      var request =
-          LoginRequestModel(username: event.userName.trim(), password: event.password.trim());
-      var response = await ApiClient.authenticateService.authenticateUser(request);      
-        authenticationBloc.add(OnLoggedInEvent(token: response.data.token));
-      
+      var request = LoginRequestModel(
+          username: event.userName.trim(), password: event.password.trim());
+      var response =
+          await ApiClient.authenticateService.authenticateUser(request);
+      authenticationBloc.add(OnLoggedInEvent(token: response.data.token ?? ''));
     } on Failure catch (e) {
       if (e.statusCode == null) {
         emit(LoginFailureState(errorMessage: e.message));

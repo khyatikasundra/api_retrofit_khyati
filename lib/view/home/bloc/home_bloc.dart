@@ -2,14 +2,18 @@ import 'dart:async';
 
 import 'package:api_retrofit_project/core/error/exception.dart';
 import 'package:api_retrofit_project/core/webservice/api_client.dart';
+import 'package:api_retrofit_project/view/authentication/authentication_bloc.dart';
+import 'package:api_retrofit_project/view/authentication/authentication_event.dart';
 import 'package:api_retrofit_project/view/home/bloc/home_event.dart';
 import 'package:api_retrofit_project/view/home/bloc/home_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(HomeInitialState()) {
+  final AuthenticationBloc authenticationBloc;
+  HomeBloc({required this.authenticationBloc}) : super(HomeInitialState()) {
     on<GetHomeInitialDataEvent>(_homeInitialData);
+    on<GetLogoutButtonPressedEvent>(_logoutButtonPressed);
   }
 
   FutureOr<void> _homeInitialData(
@@ -27,5 +31,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  FutureOr<void> _logoutButtonPressed(
+      GetLogoutButtonPressedEvent event, Emitter<HomeState> emit) {
+    authenticationBloc.add(OnLogoutEvent());
   }
 }

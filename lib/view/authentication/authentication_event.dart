@@ -9,4 +9,7 @@ class OnLoggedInEvent extends AuthenticationEvent {
   final String token;
   OnLoggedInEvent({required this.token});
 }
-class OnAppStarted extends AuthenticationEvent{}
+
+class OnAppStarted extends AuthenticationEvent {}
+
+class OnLogoutEvent extends AuthenticationEvent {}

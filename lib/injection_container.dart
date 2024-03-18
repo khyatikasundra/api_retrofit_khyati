@@ -12,9 +12,10 @@ Future<void> init() async {
       .registerFactory(() => LoginBloc(authenticationBloc: serviceLocator()));
   serviceLocator.registerLazySingleton(() => AuthenticationBloc());
 
-  serviceLocator.registerFactory(() => HomeBloc());
+  serviceLocator
+      .registerFactory(() => HomeBloc(authenticationBloc: serviceLocator()));
 
   // Register SharedPreferences type
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  serviceLocator.registerLazySingleton(() =>  sharedPreferences);
+  serviceLocator.registerLazySingleton(() => sharedPreferences);
 }

@@ -22,6 +22,7 @@ class SharedPreferenceManager {
   String? getToken(String key) {
     return _prefs.getString(key);
   }
+  Future<bool> clear() async=> await _prefs.clear();
 }
 
 

@@ -12,4 +12,8 @@ class SharedPreferenceHelper {
   static Future<bool> setToken(String value) async {
     return await prefs.setToken(token, value);
   }
+
+  static Future<bool> clear() async{
+    return await prefs.clear();
+  }
 }

@@ -42,4 +42,3 @@ class _MyAppScreenState extends State<MyAppScreen> {
     return const LoginPage();
   }
 }
-
