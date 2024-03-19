@@ -9,5 +9,11 @@ class TextStyles {
           borderRadius: BorderRadius.circular(15)),
       focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.amber, width: 2),
+          borderRadius: BorderRadius.circular(15)),
+      focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red, width: 2),
+          borderRadius: BorderRadius.circular(15)),
+      errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red, width: 2),
           borderRadius: BorderRadius.circular(15)));
 }

@@ -16,6 +16,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late LoginBloc _loginBloc;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -25,8 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
     return Scaffold(
       body: CustomScrollWidget(
         child: BlocConsumer<LoginBloc, LoginState>(
@@ -60,11 +61,18 @@ class _LoginScreenState extends State<LoginScreen> {
   Form _loginForm(TextEditingController emailController,
       TextEditingController passwordController) {
     return Form(
+        key: _formKey,
         child: LoginForm(
-      emailController: emailController,
-      passwordController: passwordController,
-      onLoginButtonPressed: () => _loginBloc.add(OnLoginButtonPressedEvent(
-          userName: emailController.text, password: passwordController.text)),
-    ));
+          emailController: emailController,
+          passwordController: passwordController,
+          onLoginButtonPressed: _loginButtonOnPressed,
+        ));
+  }
+
+  void _loginButtonOnPressed() {
+    if (_formKey.currentState!.validate()) {
+      _loginBloc.add(OnLoginButtonPressedEvent(
+          userName: emailController.text, password: passwordController.text));
+    }
   }
 }
