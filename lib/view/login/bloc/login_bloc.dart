@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           username: event.userName.trim(), password: event.password.trim());
       var response =
           await ApiClient.authenticateService.authenticateUser(request);
-      authenticationBloc.add(OnLoggedInEvent(token: response.data.token ?? ''));
+      authenticationBloc.add(OnLoggedInEvent(token: response.data.token ));
     } on Failure catch (e) {
       if (e.statusCode == null) {
         emit(LoginFailureState(errorMessage: e.message));
