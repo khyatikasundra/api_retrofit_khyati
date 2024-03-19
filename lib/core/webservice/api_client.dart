@@ -6,6 +6,7 @@ import 'package:api_retrofit_project/core/webservice/mock_adapter.dart';
 import 'package:api_retrofit_project/core/webservice/profile_service.dart';
 
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiClient {
   static late AuthenticateService authenticateService;
@@ -16,9 +17,11 @@ class ApiClient {
           baseUrl: Profiles.developProfiles.baseUrl,
           contentType: Headers.jsonContentType)
       ..httpClientAdapter = MockAdapter();
+      
     dio.interceptors.addAll([
       ExceptionInterceptor(),
       HeaderInterceptor(),
+      PrettyDioLogger()
     ]);
 
     authenticateService = AuthenticateService(dio);
