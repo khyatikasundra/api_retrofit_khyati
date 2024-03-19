@@ -1,3 +1,4 @@
+import 'package:api_retrofit_project/core/constant/strings.dart';
 import 'package:api_retrofit_project/model/profile_model.dart';
 import 'package:api_retrofit_project/view/home/bloc/home_bloc.dart';
 import 'package:api_retrofit_project/view/home/bloc/home_event.dart';
@@ -58,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SliverList.builder(
             itemCount: _users.length,
             itemBuilder: (context, index) => ListTile(
-                  title: Text(_users[index].userName ?? "khyati"),
+                  title: Text(_users[index].userName ?? ""),
                 ))
       ],
     );
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   AppBar _appBar() {
     return AppBar(
-      title: const Text("Home"),
+      title: Text(Strings.labelString.kHome),
       actions: [
         IconButton(
             onPressed: () {
