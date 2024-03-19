@@ -30,35 +30,41 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: CustomScrollWidget(
         child: BlocConsumer<LoginBloc, LoginState>(
-          listener: (context, state) {
-            if (state is LoginFailureState) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content:
-                    Text("${state.errorMessage} ${state.statusCode ?? ''}"),
-                duration: const Duration(seconds: 10),
-              ));
-            }
-          },
-          builder: (context, state) {
-            return Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(Assets.images.sunflower.path),
-              )),
-              child: Form(
-                  child: LoginForm(
-                emailController: emailController,
-                passwordController: passwordController,
-                onLoginButtonPressed: () => _loginBloc.add(
-                    OnLoginButtonPressedEvent(
-                        userName: emailController.text,
-                        password: passwordController.text)),
-              )),
-            );
-          },
+          listener: _listener,
+          builder: (context, state) => Container(
+            decoration: _backgroundImage(),
+            child: _loginForm(emailController, passwordController),
+          ),
         ),
       ),
     );
+  }
+
+  void _listener(context, state) {
+    if (state is LoginFailureState) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("${state.errorMessage} ${state.statusCode ?? ''}"),
+        duration: const Duration(seconds: 10),
+      ));
+    }
+  }
+
+  BoxDecoration _backgroundImage() {
+    return BoxDecoration(
+        image: DecorationImage(
+      fit: BoxFit.cover,
+      image: AssetImage(Assets.images.sunflower.path),
+    ));
+  }
+
+  Form _loginForm(TextEditingController emailController,
+      TextEditingController passwordController) {
+    return Form(
+        child: LoginForm(
+      emailController: emailController,
+      passwordController: passwordController,
+      onLoginButtonPressed: () => _loginBloc.add(OnLoginButtonPressedEvent(
+          userName: emailController.text, password: passwordController.text)),
+    ));
   }
 }

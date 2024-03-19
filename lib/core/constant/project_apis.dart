@@ -1,7 +1,7 @@
 class ProjectAPIs {
   static Mock mock = Mock();
   static const String authenticate = "/login";
-  static const String profile = "/me";
+  static const String profile = "/auth/me";
  
 }
 

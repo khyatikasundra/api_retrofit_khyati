@@ -25,45 +25,55 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Home"),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  _homeBloc.add(GetLogoutButtonPressedEvent());
-                },
-                icon: const Icon(Icons.logout_rounded))
-          ],
-        ),
+        appBar: _appBar(),
         body: BlocConsumer<HomeBloc, HomeState>(
-          listener: (context, state) {
-            if (state is StateFailureState) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content:
-                    Text("${state.errorMessage} ${state.statusCode ?? ''}"),
-                duration: const Duration(seconds: 10),
-              ));
-            }
-          },
-          builder: (context, state) {
-            if (state is OnGetHomeInitialDataState) {
-            
-            }
-
-            return SafeArea(
-                child: Center(
-                    child: state is HomeLoadingState
-                        ? const CircularProgressIndicator()
-                        : CustomScrollView(
-                            slivers: [
-                              SliverList.builder(
-                              
-                                  itemBuilder: (context, index) => ListTile(
-                                        title: Text(''),
-                                      ))
-                            ],
-                          )));
-          },
+          listener: _listener,
+          builder: _builder,
         ));
+  }
+
+  void _listener(context, state) {
+    if (state is StateFailureState) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("${state.errorMessage} ${state.statusCode ?? ''}"),
+        duration: const Duration(seconds: 10),
+      ));
+    }
+  }
+
+  Widget _builder(context, state) {
+    if (state is OnGetHomeInitialDataState) {
+      _users = state.profileModel.users ?? [];
+    }
+    return SafeArea(
+        child: Center(
+            child: state is HomeLoadingState
+                ? const CircularProgressIndicator()
+                : _listBuilder()));
+  }
+
+  Widget _listBuilder() {
+    return CustomScrollView(
+      slivers: [
+        SliverList.builder(
+            itemCount: _users.length,
+            itemBuilder: (context, index) => ListTile(
+                  title: Text(_users[index].userName ?? "khyati"),
+                ))
+      ],
+    );
+  }
+
+  AppBar _appBar() {
+    return AppBar(
+      title: const Text("Home"),
+      actions: [
+        IconButton(
+            onPressed: () {
+              _homeBloc.add(GetLogoutButtonPressedEvent());
+            },
+            icon: const Icon(Icons.logout_rounded))
+      ],
+    );
   }
 }

@@ -10,7 +10,9 @@ class MockAdapter extends IOHttpClientAdapter {
   Future<ResponseBody> fetch(RequestOptions options,
       Stream<Uint8List>? requestStream, Future<void>? cancelFuture) async {
     String url = options.uri.path;
+    print(url);
     if (url == ProjectAPIs.profile) {
+      print("mock");
       return await _convertToResponseBody(ProjectAPIs.mock.kProfile);
     }
     return super.fetch(options, requestStream, cancelFuture);
@@ -23,7 +25,9 @@ class MockAdapter extends IOHttpClientAdapter {
     String responseStr = '';
     if (assetUrl != null) {
       responseStr = await Utilities.parseStringFromAssets(assetUrl);
+      print(responseStr);
     }
+    await Future.delayed(Duration(seconds: 3));
     return ResponseBody.fromString(responseStr, 200, headers: headers);
   }
 }
