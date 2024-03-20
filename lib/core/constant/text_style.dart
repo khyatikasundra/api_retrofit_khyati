@@ -16,4 +16,7 @@ class TextStyles {
       errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.red, width: 2),
           borderRadius: BorderRadius.circular(15)));
+
+  static TextStyle getInputFiledTextColor() =>
+      const TextStyle(color: Colors.white);
 }

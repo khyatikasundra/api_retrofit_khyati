@@ -32,22 +32,28 @@ class _LoginScreenState extends State<LoginScreen> {
       body: CustomScrollWidget(
         child: BlocConsumer<LoginBloc, LoginState>(
           listener: _listener,
-          builder: (context, state) => Container(
-            decoration: _backgroundImage(),
-            child: _loginForm(emailController, passwordController),
-          ),
+          builder: _builder,
         ),
       ),
     );
   }
 
+  Widget _builder(context, state) => Container(
+        decoration: _backgroundImage(),
+        child: _loginForm(emailController, passwordController),
+      );
+
   void _listener(context, state) {
     if (state is LoginFailureState) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("${state.errorMessage} ${state.statusCode ?? ''}"),
-        duration: const Duration(seconds: 10),
-      ));
+      _snackBar(context, state);
     }
+  }
+
+  void _snackBar(context, LoginFailureState state) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("${state.errorMessage} ${state.statusCode ?? ''}"),
+      duration: const Duration(seconds: 10),
+    ));
   }
 
   BoxDecoration _backgroundImage() {

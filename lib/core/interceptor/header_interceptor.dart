@@ -1,4 +1,5 @@
 import 'package:api_retrofit_project/core/constant/project_apis.dart';
+import 'package:api_retrofit_project/core/interceptor/api_logger.dart';
 import 'package:api_retrofit_project/core/shared_preference_helper.dart';
 import 'package:dio/dio.dart';
 
@@ -20,6 +21,7 @@ class HeaderInterceptor extends InterceptorsWrapper {
     if (token != null && token.isNotEmpty) {
       options.headers = {'Authorization': 'Bearer $token'};
     }
+    APiLogger.addRequestLog(options);
     super.onRequest(options, handler);
   }
 }

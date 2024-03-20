@@ -22,42 +22,57 @@ class LoginForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            Strings.labelString.kLogin,
-            style: const TextStyle(fontSize: 60, color: Colors.white),
-          ),
-          Text(
-            Strings.labelString.kUserName,
-            style: const TextStyle(color: Colors.white),
-          ),
-          TextFormField(
-            style: const TextStyle(color: Colors.white),
-            decoration: TextStyles.getInputDecoration(),
-            controller: emailController,
-            validator: emailValidator,
-          ),
-          Text(
-            Strings.labelString.kPassword,
-            style: const TextStyle(color: Colors.white),
-          ),
-          TextFormField(
-            decoration: TextStyles.getInputDecoration(),
-            style: const TextStyle(color: Colors.white),
-            controller: passwordController,
-            validator: passwordValidator,
-            obscureText: true,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
+          _loginTitle(),
+          _formLabelText(Strings.labelString.kUserName),
+          _userNameTextField(),
+          _formLabelText(Strings.labelString.kPassword),
+          _passwordTextField(),
+          _spacer(),
           CustomAppButton(onPressed: onLoginButtonPressed),
         ],
       ),
     );
   }
 
+  SizedBox _spacer() => const SizedBox(height: 10);
+
+  TextFormField _passwordTextField() {
+    return TextFormField(
+      decoration: TextStyles.getInputDecoration(),
+      style: TextStyles.getInputFiledTextColor(),
+      controller: passwordController,
+      validator: passwordValidator,
+      obscureText: true,
+    );
+  }
+
+  TextFormField _userNameTextField() {
+    return TextFormField(
+      style: TextStyles.getInputFiledTextColor(),
+      decoration: TextStyles.getInputDecoration(),
+      controller: emailController,
+      validator: emailValidator,
+    );
+  }
+
+  Text _formLabelText(String labelText) {
+    return Text(
+      labelText,
+      style: TextStyles.getInputFiledTextColor(),
+    );
+  }
+
+  Text _loginTitle() {
+    return Text(
+      Strings.labelString.kLogin,
+      style: TextStyles.getInputFiledTextColor().copyWith(fontSize: 50),
+    );
+  }
+
   static String? emailValidator(String? value) {
-    if (value!.trim().isEmpty) {
+    if (value == null) {
+      return Strings.message.kEnterEmail;
+    } else if ((value).trim().isEmpty) {
       return Strings.message.kEnterEmail;
     } else if (!Validator.isValidEmail(value)) {
       return Strings.message.kEnterValidEmail;
@@ -67,7 +82,9 @@ class LoginForm extends StatelessWidget {
   }
 
   static String? passwordValidator(String? value) {
-    if (value!.trim().isEmpty) {
+    if (value == null) {
+      return Strings.message.kEnterPassword;
+    } else if (value.trim().isEmpty) {
       return Strings.message.kEnterPassword;
     } else if (!Validator.isValidPassword(value)) {
       return Strings.message.kEnterValidPassword;

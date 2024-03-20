@@ -1,9 +1,20 @@
-// import 'dart:math';
+import 'package:dio/dio.dart';
+import 'package:api_retrofit_project/core/util/logger.dart';
 
-// import 'package:dio/dio.dart';
-// import 'package:flutter/foundation.dart';
+class APiLogger {
+  static void addRequestLog(RequestOptions options) {
+    log.info('******* Request *********');
+    printLog('URL: ', options.uri);
+    printLog('method', options.method);
+  }
 
-// class APiLogger {
-//   static void addRequestLog(RequestOptions options) {
-//   }
-// }
+  static void addResponseLog(Response response) {
+    log.info('******* Response ********');
+    printLog('uri', response.requestOptions.uri);
+    printLog('statusCode', response.statusCode);
+  }
+
+  static void printLog(String key, dynamic value) {
+    log.info('$key : $value');
+  }
+}
