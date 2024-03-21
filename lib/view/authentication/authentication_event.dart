@@ -5,11 +5,11 @@ abstract class AuthenticationEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class OnLoggedInEvent extends AuthenticationEvent {
+class LoggedInEvent extends AuthenticationEvent {
   final String token;
-  OnLoggedInEvent({required this.token});
+  LoggedInEvent({required this.token});
 }
 
-class OnAppStarted extends AuthenticationEvent {}
+class AppStartedEvent extends AuthenticationEvent {}
 
-class OnLogoutEvent extends AuthenticationEvent {}
+class LogoutEvent extends AuthenticationEvent {}

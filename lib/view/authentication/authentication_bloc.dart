@@ -8,13 +8,13 @@ import 'package:bloc/bloc.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(AuthenticationInitialState()) {
-    on<OnLoggedInEvent>(_onLoggedIn);
-    on<OnAppStarted>(_onAppStarted);
-    on<OnLogoutEvent>(_onLogout);
+    on<LoggedInEvent>(_onLoggedIn);
+    on<AppStartedEvent>(_onAppStarted);
+    on<LogoutEvent>(_onLogout);
   }
 
   FutureOr<void> _onLoggedIn(
-      OnLoggedInEvent event, Emitter<AuthenticationState> emit) async {
+      LoggedInEvent event, Emitter<AuthenticationState> emit) async {
     await SharedPreferenceHelper.setToken(event.token);
     emit(AuthenticationAuthenticated());
   }
@@ -29,7 +29,7 @@ class AuthenticationBloc
   }
 
   FutureOr<void> _onLogout(
-      OnLogoutEvent event, Emitter<AuthenticationState> emit) async {
+      LogoutEvent event, Emitter<AuthenticationState> emit) async {
     emit(AuthenticationLoading());
     await SharedPreferenceHelper.clear();
     print("emit");

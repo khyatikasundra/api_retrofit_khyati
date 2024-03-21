@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-abstract class HomeEvent extends Equatable{
+abstract class HomeEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
-class GetHomeInitialDataEvent extends HomeEvent{}
 
-class GetLogoutButtonPressedEvent extends HomeEvent{}
+class GetUserListEvent extends HomeEvent {}
+
+class LogoutButtonPressedEvent extends HomeEvent {}

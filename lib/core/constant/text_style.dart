@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:api_retrofit_project/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class TextStyles {
@@ -19,4 +22,16 @@ class TextStyles {
 
   static TextStyle getInputFiledTextColor() =>
       const TextStyle(color: Colors.white);
+
+  static BoxDecoration getBackgroundImageBoxDecoration() => BoxDecoration(
+          image: DecorationImage(
+        fit: BoxFit.cover,
+        image: AssetImage(Assets.images.sunflower.path),
+      ));
+  static ButtonStyle getCustomButtonStyle() => ButtonStyle(
+      minimumSize: MaterialStateProperty.all(const Size(150, 50)),
+      shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+      backgroundColor:
+          MaterialStateProperty.all(Colors.amber.withOpacity(0.8)));
 }

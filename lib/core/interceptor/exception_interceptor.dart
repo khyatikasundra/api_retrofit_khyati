@@ -1,6 +1,7 @@
-import 'package:api_retrofit_project/core/constant/strings.dart';
+import 'package:api_retrofit_project/core/constant/app_strings.dart';
 import 'package:api_retrofit_project/core/error/exception.dart';
 import 'package:api_retrofit_project/core/error/failure_response.dart';
+import 'package:api_retrofit_project/core/interceptor/api_logger.dart';
 import 'package:dio/dio.dart';
 
 class ExceptionInterceptor extends InterceptorsWrapper {
@@ -11,17 +12,25 @@ class ExceptionInterceptor extends InterceptorsWrapper {
         handleResponse(err);
         break;
       case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
-      case DioExceptionType.badCertificate:
-      case DioExceptionType.cancel:
-      case DioExceptionType.connectionError:
-      print(err.response?.statusCode);
         throw ServerException(
-            exceptionMessage: Strings.errorMessage.noInternetConnection,
+            exceptionMessage: AppStrings.message.kRequestTimeout);
+      case DioExceptionType.sendTimeout:
+        throw ServerException(
+            exceptionMessage: AppStrings.message.kSendTimeout);
+      case DioExceptionType.receiveTimeout:
+        throw ServerException(
+            exceptionMessage: AppStrings.message.kNoInternetConnection);
+      case DioExceptionType.cancel:
+        throw ServerException(
+            exceptionMessage: AppStrings.message.kRequestCancelled);
+      case DioExceptionType.connectionError:
+        throw ServerException(
+            exceptionMessage: AppStrings.message.kNoInternetConnection,
             authenticationStatusCode: err.response?.statusCode);
+      case DioExceptionType.badCertificate:
       case DioExceptionType.unknown:
-      break;
+        throw ServerException(
+            exceptionMessage: AppStrings.message.kSomethingWentWrong);
     }
     super.onError(err, handler);
   }
@@ -32,10 +41,32 @@ class ExceptionInterceptor extends InterceptorsWrapper {
       case 400:
         final FailureResponse exception =
             FailureResponse.fromJson(response?.data);
-
         throw BadRequestException(
             exceptionMessage: exception.message,
             authenticationStatusCode: response?.statusCode);
+      case 401:
+        final FailureResponse exception =
+            FailureResponse.fromJson(response?.data);
+        throw UnAuthorizedException(
+            exceptionMessage: exception.message,
+            authenticationStatusCode: response!.statusCode);
+      case 404:
+        final FailureResponse exception =
+            FailureResponse.fromJson(response?.data);
+        throw UnAuthorizedException(
+            exceptionMessage: exception.message,
+            authenticationStatusCode: response!.statusCode);
+      case 500:
+      default:
+        final FailureResponse exception =
+            FailureResponse.fromJson(response?.data);
+        throw FetchDataException(exceptionMessage: exception.message);
     }
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    APiLogger.addResponseLog(response);
+    super.onResponse(response, handler);
   }
 }

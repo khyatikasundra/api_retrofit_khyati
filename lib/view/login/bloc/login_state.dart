@@ -17,6 +17,5 @@ class OnGetAuthenticatedSuccessful extends LoginState {
 
 class LoginFailureState extends LoginState {
   final String errorMessage;
-  final int? statusCode;
-  LoginFailureState({required this.errorMessage, this.statusCode});
+  LoginFailureState({required this.errorMessage});
 }

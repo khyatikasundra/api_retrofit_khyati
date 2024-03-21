@@ -1,8 +1,8 @@
-import 'package:api_retrofit_project/core/constant/strings.dart';
 import 'package:api_retrofit_project/model/profile_model.dart';
 import 'package:api_retrofit_project/view/home/bloc/home_bloc.dart';
 import 'package:api_retrofit_project/view/home/bloc/home_event.dart';
 import 'package:api_retrofit_project/view/home/bloc/home_state.dart';
+import 'package:api_retrofit_project/view/home/widget/home_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,30 +16,33 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late HomeBloc _homeBloc;
   List<User> _users = [];
+
+//! widget lifecycle method
   @override
   void initState() {
     _homeBloc = context.read<HomeBloc>();
-    _homeBloc.add(GetHomeInitialDataEvent());
+    _homeBloc.add(GetUserListEvent());
     super.initState();
   }
 
+//! build method
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(),
-        body: BlocConsumer<HomeBloc, HomeState>(
-          listener: _listener,
-          builder: _builder,
-        ));
+      appBar: _appBar(),
+      body: _blockConsumer(),
+    );
   }
 
-  void _listener(context, state) {
-    if (state is StateFailureState) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("${state.errorMessage} ${state.statusCode ?? ''}"),
-        duration: const Duration(seconds: 10),
-      ));
-    }
+  //! methods
+  HomeAppBar _appBar() =>
+      HomeAppBar(onLogoutButtonPressed: _onLogoutButtonPressed);
+
+  BlocConsumer<HomeBloc, HomeState> _blockConsumer() {
+    return BlocConsumer<HomeBloc, HomeState>(
+      listener: _listener,
+      builder: _builder,
+    );
   }
 
   Widget _builder(context, state) {
@@ -47,34 +50,40 @@ class _HomeScreenState extends State<HomeScreen> {
       _users = state.profileModel.users ?? [];
     }
     return SafeArea(
-        child: Center(
-            child: state is HomeLoadingState
-                ? const CircularProgressIndicator()
-                : _listBuilder()));
+      child: Center(
+        child: state is HomeLoadingState
+            ? const CircularProgressIndicator()
+            : _listBuilder(),
+      ),
+    );
   }
 
   Widget _listBuilder() {
-    return CustomScrollView(
-      slivers: [
-        SliverList.builder(
-            itemCount: _users.length,
-            itemBuilder: (context, index) => ListTile(
-                  title: Text(_users[index].userName ?? ""),
-                ))
-      ],
+    return ListView.builder(
+        itemCount: _users.length,
+        itemBuilder: (context, index) => ListTile(
+              title: Text(_users[index].userName ?? ""),
+            ));
+  }
+
+  //! listener
+  void _listener(context, state) {
+    if (state is HomeFailureState) {
+      _snackBar(context, state);
+    }
+  }
+
+  //! function
+  void _snackBar(context, HomeFailureState state) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(state.errorMessage),
+        duration: const Duration(seconds: 3),
+      ),
     );
   }
 
-  AppBar _appBar() {
-    return AppBar(
-      title: Text(Strings.labelString.kHome),
-      actions: [
-        IconButton(
-            onPressed: () {
-              _homeBloc.add(GetLogoutButtonPressedEvent());
-            },
-            icon: const Icon(Icons.logout_rounded))
-      ],
-    );
+  void _onLogoutButtonPressed() {
+    _homeBloc.add(LogoutButtonPressedEvent());
   }
 }

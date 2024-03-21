@@ -15,29 +15,32 @@ class MyAppScreen extends StatefulWidget {
 
 class _MyAppScreenState extends State<MyAppScreen> {
   late AuthenticationBloc _authenticationBloc;
+
+//! widget lifecycle method
   @override
   void initState() {
     _authenticationBloc = context.read<AuthenticationBloc>();
-    _authenticationBloc.add(OnAppStarted());
+    _authenticationBloc.add(AppStartedEvent());
     super.initState();
   }
 
+//! build method
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: _builder),
+        body: _blocBuilder(),
       ),
     );
   }
 
+//! widget method
+  Widget _blocBuilder() =>
+      BlocBuilder<AuthenticationBloc, AuthenticationState>(builder: _builder);
+
   Widget _builder(BuildContext context, AuthenticationState state) {
     if (state is AuthenticationAuthenticated) {
       return const HomePage();
-    }
-    if (state is AuthenticationUnauthenticated) {
-      return const LoginPage();
     }
     return const LoginPage();
   }

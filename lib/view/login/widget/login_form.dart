@@ -1,42 +1,41 @@
-import 'package:api_retrofit_project/core/constant/strings.dart';
+import 'package:api_retrofit_project/core/constant/app_strings.dart';
 import 'package:api_retrofit_project/core/constant/text_style.dart';
 import 'package:api_retrofit_project/core/util/validator.dart';
 import 'package:api_retrofit_project/ui_component/custom_button/custom_app_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatelessWidget {
-  final TextEditingController emailController;
+  final TextEditingController userNameController;
   final TextEditingController passwordController;
   final VoidCallback onLoginButtonPressed;
   const LoginForm(
-      {required this.emailController,
+      {required this.userNameController,
       required this.passwordController,
       required this.onLoginButtonPressed,
       super.key});
 
+//!build method
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _loginTitle(),
-          _formLabelText(Strings.labelString.kUserName),
-          _userNameTextField(),
-          _formLabelText(Strings.labelString.kPassword),
-          _passwordTextField(),
-          _spacer(),
-          CustomAppButton(onPressed: onLoginButtonPressed),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _loginTitle(),
+        _userNameLabel(),
+        _userNameTextField(),
+        _passwordLabel(),
+        _passwordTextField(),
+        _spacer(),
+        _loginButton(),
+      ],
     );
   }
 
-  SizedBox _spacer() => const SizedBox(height: 10);
+//! widget method
+  Widget _spacer() => const SizedBox(height: 10);
 
-  TextFormField _passwordTextField() {
+  Widget _passwordTextField() {
     return TextFormField(
       decoration: TextStyles.getInputDecoration(),
       style: TextStyles.getInputFiledTextColor(),
@@ -46,36 +45,51 @@ class LoginForm extends StatelessWidget {
     );
   }
 
-  TextFormField _userNameTextField() {
+  Widget _userNameTextField() {
     return TextFormField(
       style: TextStyles.getInputFiledTextColor(),
       decoration: TextStyles.getInputDecoration(),
-      controller: emailController,
-      validator: emailValidator,
+      controller: userNameController,
+      validator: userNameValidator,
     );
   }
 
-  Text _formLabelText(String labelText) {
+  Widget _userNameLabel() {
     return Text(
-      labelText,
+      AppStrings.labelString.kUserName,
       style: TextStyles.getInputFiledTextColor(),
     );
   }
 
-  Text _loginTitle() {
+  Widget _passwordLabel() {
     return Text(
-      Strings.labelString.kLogin,
+      AppStrings.labelString.kPassword,
+      style: TextStyles.getInputFiledTextColor(),
+    );
+  }
+
+  Widget _loginTitle() {
+    return Text(
+      AppStrings.labelString.kLogin,
       style: TextStyles.getInputFiledTextColor().copyWith(fontSize: 50),
     );
   }
 
-  static String? emailValidator(String? value) {
+  Widget _loginButton() {
+    return CustomAppButton(
+      onPressed: onLoginButtonPressed,
+      buttonLabel: AppStrings.labelString.kLogin,
+    );
+  }
+
+//! function
+  static String? userNameValidator(String? value) {
     if (value == null) {
-      return Strings.message.kEnterEmail;
+      return AppStrings.message.kEnterEmail;
     } else if ((value).trim().isEmpty) {
-      return Strings.message.kEnterEmail;
+      return AppStrings.message.kEnterEmail;
     } else if (!Validator.isValidEmail(value)) {
-      return Strings.message.kEnterValidEmail;
+      return AppStrings.message.kEnterValidEmail;
     } else {
       return null;
     }
@@ -83,11 +97,11 @@ class LoginForm extends StatelessWidget {
 
   static String? passwordValidator(String? value) {
     if (value == null) {
-      return Strings.message.kEnterPassword;
+      return AppStrings.message.kEnterPassword;
     } else if (value.trim().isEmpty) {
-      return Strings.message.kEnterPassword;
+      return AppStrings.message.kEnterPassword;
     } else if (!Validator.isValidPassword(value)) {
-      return Strings.message.kEnterValidPassword;
+      return AppStrings.message.kEnterValidPassword;
     } else {
       return null;
     }

@@ -1,6 +1,6 @@
 import 'package:api_retrofit_project/core/util/logger.dart';
 import 'package:api_retrofit_project/core/constant/profiles.dart';
-import 'package:api_retrofit_project/core/constant/strings.dart';
+import 'package:api_retrofit_project/core/constant/app_strings.dart';
 import 'package:api_retrofit_project/core/util/utilities.dart';
 import 'package:flutter/services.dart';
 
@@ -16,13 +16,11 @@ class AppConfig {
 
   static Future<bool> configure() async {
     try {
-      final String? flavor = await (MethodChannel(Strings.channel.kApp)
-          .invokeMethod<String>(Strings.channelMethod.kFlavor));
+      final String? flavor = await (MethodChannel(AppStrings.channel.kApp)
+          .invokeMethod<String>(AppStrings.channelMethod.kFlavor));
       if (flavor != null) {
-        print("Inside flavor");
         log.info(" started $flavor");
         _setupEnvironment(Utilities.enumFromString(flavor, Environment.values));
-        print("after setup");
         return true;
       } else {
         return false;
@@ -33,7 +31,6 @@ class AppConfig {
   }
 
   static void _setupEnvironment(Environment flavorName) {
-    print("inside set up");
     late String baseUrl;
     late Environment flavor;
     switch (flavorName) {

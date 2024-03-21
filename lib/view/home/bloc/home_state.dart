@@ -8,14 +8,14 @@ abstract class HomeState extends Equatable {
 
 class HomeInitialState extends HomeState {}
 
-class HomeLoadingState extends HomeState{}
+class HomeLoadingState extends HomeState {}
 
 class OnGetHomeInitialDataState extends HomeState {
   final ProfileModel profileModel;
   OnGetHomeInitialDataState({required this.profileModel});
 }
-class StateFailureState extends HomeState{
+
+class HomeFailureState extends HomeState {
   final String errorMessage;
-  final int? statusCode;
-  StateFailureState({required this.errorMessage, this.statusCode});
+  HomeFailureState({required this.errorMessage});
 }

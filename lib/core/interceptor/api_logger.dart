@@ -12,6 +12,7 @@ class APiLogger {
     log.info('******* Response ********');
     printLog('uri', response.requestOptions.uri);
     printLog('statusCode', response.statusCode);
+    printLog('body', response.data);
   }
 
   static void printLog(String key, dynamic value) {

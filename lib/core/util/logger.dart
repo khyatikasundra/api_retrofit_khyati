@@ -8,4 +8,4 @@ void loggerConfigure() {
   });
 }
 
-final log = Logger('BaseProject');
+final log = Logger('ApiRetrofit');
